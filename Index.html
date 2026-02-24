@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IlliniFresh — Groceries Made Easy for Students</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a7a4a;
+    --green-light: #2ecc71;
+    --green-pale: #e8f7ef;
+    --cream: #faf8f3;
+    --charcoal: #1c1f1a;
+    --mid: #5a6158;
+    --accent: #f5a623;
+    --white: #ffffff;
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(250,248,243,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(26,122,74,0.1);
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--green);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green-light); }
+  nav ul { list-style: none; display: flex; gap: 32px; }
+  nav ul li a {
+    text-decoration: none; font-size: 0.9rem; font-weight: 500;
+    color: var(--mid); transition: color 0.2s;
+  }
+  nav ul li a:hover { color: var(--green); }
+  .nav-cta {
+    background: var(--green); color: white; padding: 10px 22px;
+    border-radius: 50px; font-size: 0.88rem; font-weight: 500;
+    text-decoration: none; transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: #155e39; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 48px;
+    padding-top: 90px;
+    align-items: center;
+    gap: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -100px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(46,204,113,0.12) 0%, transparent 70%);
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-pale); color: var(--green);
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em;
+    padding: 8px 16px; border-radius: 50px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag span { width: 6px; height: 6px; border-radius: 50%; background: var(--green-light); }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 900; line-height: 1.08;
+    color: var(--charcoal);
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em { font-style: italic; color: var(--green); }
+  .hero p {
+    font-size: 1.05rem; line-height: 1.7; color: var(--mid);
+    max-width: 480px; margin-bottom: 36px;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--green); color: white;
+    padding: 14px 30px; border-radius: 50px;
+    font-size: 0.95rem; font-weight: 500;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 18px rgba(26,122,74,0.28);
+  }
+  .btn-primary:hover { background: #155e39; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,122,74,0.36); }
+  .btn-secondary {
+    background: transparent; color: var(--green);
+    padding: 14px 30px; border-radius: 50px;
+    font-size: 0.95rem; font-weight: 500;
+    text-decoration: none; border: 2px solid var(--green);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--green-pale); }
+
+  /* Hero illustration */
+  .hero-visual {
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+    animation: fadeIn 0.8s 0.3s ease both;
+  }
+  .hero-card {
+    background: white;
+    border-radius: 28px;
+    padding: 32px;
+    width: 340px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 4px 20px rgba(26,122,74,0.1);
+    position: relative;
+  }
+  .hero-card-tag {
+    font-size: 0.75rem; color: var(--green); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 20px;
+  }
+  .grocery-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0; border-bottom: 1px solid #f0f0f0;
+  }
+  .grocery-item:last-of-type { border-bottom: none; }
+  .grocery-left { display: flex; align-items: center; gap: 14px; }
+  .grocery-icon { font-size: 1.8rem; }
+  .grocery-name { font-size: 0.92rem; font-weight: 500; }
+  .grocery-store { font-size: 0.75rem; color: var(--mid); }
+  .grocery-price { font-size: 0.92rem; font-weight: 600; color: var(--green); }
+  .add-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--green); color: white; border: none;
+    font-size: 1.1rem; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    transition: transform 0.15s;
+  }
+  .add-btn:hover { transform: scale(1.1); }
+  .card-total {
+    margin-top: 16px; padding: 14px 18px;
+    background: var(--green-pale); border-radius: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .card-total span { font-size: 0.88rem; color: var(--mid); }
+  .card-total strong { font-size: 1rem; color: var(--green); }
+  .floating-badge {
+    position: absolute; top: -16px; right: -16px;
+    background: var(--accent); color: white;
+    font-size: 0.75rem; font-weight: 600;
+    padding: 8px 14px; border-radius: 50px;
+    box-shadow: 0 4px 14px rgba(245,166,35,0.3);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .section {
+    padding: 96px 48px;
+  }
+  .section-label {
+    font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--green);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700; line-height: 1.15;
+    color: var(--charcoal); margin-bottom: 20px;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--mid); line-height: 1.7;
+    max-width: 500px; margin-bottom: 64px;
+  }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .step {
+    background: white; border-radius: var(--radius);
+    padding: 36px 32px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .step:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .step-num {
+    font-family: 'Fraunces', serif;
+    font-size: 3.5rem; font-weight: 900;
+    color: var(--green-pale);
+    line-height: 1; margin-bottom: 20px;
+  }
+  .step h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; }
+  .step p { font-size: 0.9rem; color: var(--mid); line-height: 1.65; }
+  .step-icon { font-size: 2rem; margin-bottom: 16px; }
+
+  /* ── SHOP ── */
+  .shop-section {
+    background: white;
+    padding: 96px 48px;
+  }
+  .search-bar {
+    display: flex; align-items: center;
+    background: var(--cream); border: 2px solid #e8e8e0;
+    border-radius: 50px; padding: 14px 22px; gap: 12px;
+    max-width: 480px; margin-bottom: 48px;
+    transition: border-color 0.2s;
+  }
+  .search-bar:focus-within { border-color: var(--green); }
+  .search-bar input {
+    border: none; background: none; font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; outline: none; width: 100%; color: var(--charcoal);
+  }
+  .search-icon { color: var(--mid); font-size: 1.1rem; }
+
+  .category-tabs {
+    display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap;
+  }
+  .tab {
+    padding: 8px 20px; border-radius: 50px; font-size: 0.85rem;
+    font-weight: 500; cursor: pointer; border: 2px solid #e8e8e0;
+    background: white; color: var(--mid); transition: all 0.18s;
+  }
+  .tab.active, .tab:hover { border-color: var(--green); color: var(--green); background: var(--green-pale); }
+
+  .products-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .product-card {
+    background: var(--cream); border-radius: var(--radius);
+    padding: 20px; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+    position: relative;
+  }
+  .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.08); border-color: var(--green-pale); }
+  .product-emoji { font-size: 3rem; margin-bottom: 12px; display: block; }
+  .product-name { font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; }
+  .product-store { font-size: 0.75rem; color: var(--mid); margin-bottom: 12px; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price { font-size: 1rem; font-weight: 700; color: var(--green); }
+  .add-to-cart {
+    background: var(--green); color: white; border: none;
+    width: 32px; height: 32px; border-radius: 50%;
+    font-size: 1.2rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .add-to-cart:hover { background: #155e39; transform: scale(1.1); }
+  .add-to-cart.added { background: var(--accent); }
+  .product-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--green); color: white;
+    font-size: 0.65rem; font-weight: 700;
+    padding: 3px 8px; border-radius: 50px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  /* ── CART ── */
+  .cart-section {
+    padding: 96px 48px;
+    background: var(--charcoal);
+    color: white;
+  }
+  .cart-section .section-title { color: white; }
+  .cart-section .section-label { color: var(--green-light); }
+  .cart-section .section-sub { color: rgba(255,255,255,0.6); }
+  .cart-grid { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start; }
+  .cart-items { background: rgba(255,255,255,0.06); border-radius: var(--radius); padding: 24px; }
+  .cart-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .cart-item:last-child { border-bottom: none; }
+  .cart-item-left { display: flex; align-items: center; gap: 16px; }
+  .cart-item-emoji { font-size: 2rem; }
+  .cart-item-name { font-size: 0.92rem; font-weight: 500; }
+  .cart-item-store { font-size: 0.75rem; color: rgba(255,255,255,0.45); }
+  .cart-item-price { font-size: 0.95rem; font-weight: 600; color: var(--green-light); }
+  .qty-ctrl {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 4px;
+  }
+  .qty-btn {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: transparent; color: white; cursor: pointer;
+    font-size: 1rem; display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .qty-btn:hover { background: rgba(255,255,255,0.1); }
+  .qty-num { font-size: 0.88rem; min-width: 20px; text-align: center; }
+  .empty-cart {
+    text-align: center; padding: 48px 24px;
+    color: rgba(255,255,255,0.35); font-size: 0.95rem;
+  }
+  .empty-cart-icon { font-size: 3rem; margin-bottom: 12px; }
+
+  /* Checkout panel */
+  .checkout-panel {
+    background: white; border-radius: var(--radius);
+    padding: 32px; color: var(--charcoal);
+    position: sticky; top: 110px;
+  }
+  .checkout-panel h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem; margin-bottom: 24px;
+  }
+  .form-group { margin-bottom: 18px; }
+  .form-label { font-size: 0.8rem; font-weight: 600; color: var(--mid); margin-bottom: 6px; display: block; letter-spacing: 0.04em; text-transform: uppercase; }
+  .form-input {
+    width: 100%; padding: 12px 16px;
+    border: 2px solid #e8e8e0; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.92rem;
+    outline: none; transition: border-color 0.2s; background: var(--cream);
+  }
+  .form-input:focus { border-color: var(--green); }
+  .order-summary { background: var(--green-pale); border-radius: 12px; padding: 18px; margin: 20px 0; }
+  .summary-row { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 8px; color: var(--mid); }
+  .summary-row.total { font-weight: 700; font-size: 1rem; color: var(--charcoal); border-top: 1px solid rgba(26,122,74,0.2); padding-top: 12px; margin-top: 8px; }
+  .checkout-btn {
+    width: 100%; background: var(--green); color: white;
+    padding: 15px; border-radius: 50px; border: none;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    font-weight: 600; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 4px 18px rgba(26,122,74,0.28);
+  }
+  .checkout-btn:hover { background: #155e39; transform: translateY(-1px); }
+  .checkout-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* ── SUCCESS ── */
+  .success-modal {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center;
+  }
+  .success-modal.show { display: flex; }
+  .success-box {
+    background: white; border-radius: 24px; padding: 52px 48px;
+    text-align: center; max-width: 440px;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  }
+  .success-icon { font-size: 4rem; margin-bottom: 20px; }
+  .success-box h2 { font-family: 'Fraunces', serif; font-size: 1.8rem; margin-bottom: 12px; color: var(--green); }
+  .success-box p { font-size: 0.95rem; color: var(--mid); line-height: 1.65; margin-bottom: 28px; }
+  .success-close {
+    background: var(--green); color: white;
+    padding: 12px 28px; border-radius: 50px; border: none;
+    font-family: 'DM Sans', sans-serif; font-size: 0.92rem;
+    font-weight: 500; cursor: pointer;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal); color: rgba(255,255,255,0.5);
+    padding: 48px; display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 20px;
+  }
+  footer .logo { color: white; }
+  footer p { font-size: 0.85rem; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--green-light); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 80px 24px 48px; text-align: center; }
+    .hero p { margin: 0 auto 28px; }
+    .hero-btns { justify-content: center; }
+    .hero-visual { display: none; }
+    .section, .shop-section, .cart-section { padding: 64px 24px; }
+    .steps { grid-template-columns: 1fr; }
+    .cart-grid { grid-template-columns: 1fr; }
+    footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    IlliniFresh
+  </div>
+  <ul>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#order">Order</a></li>
+  </ul>
+  <a href="#shop" class="nav-cta">Shop Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag"><span></span> Built for Illini students</div>
+    <h1>Fresh groceries, <em>delivered</em> to your door.</h1>
+    <p>No car. No hassle. No stress. IlliniFresh brings Meijer essentials straight to your dorm or apartment — order in minutes, delivered the same day.</p>
+    <div class="hero-btns">
+      <a href="#shop" class="btn-primary">Start Shopping →</a>
+      <a href="#how" class="btn-secondary">How it works</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="floating-badge">✓ Fast Delivery</div>
+      <div class="hero-card-tag">🛒 Your Cart Preview</div>
+      <div class="grocery-item">
+        <div class="grocery-left">
+          <div class="grocery-icon">🥛</div>
+          <div>
+            <div class="grocery-name">Whole Milk (1 gal)</div>
+            <div class="grocery-store">Meijer</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="grocery-price">$3.99</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+      <div class="grocery-item">
+        <div class="grocery-left">
+          <div class="grocery-icon">🍞</div>
+          <div>
+            <div class="grocery-name">Wheat Bread</div>
+            <div class="grocery-store">Meijer</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="grocery-price">$2.49</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+      <div class="grocery-item">
+        <div class="grocery-left">
+          <div class="grocery-icon">🥚</div>
+          <div>
+            <div class="grocery-name">Eggs (dozen)</div>
+            <div class="grocery-store">Meijer</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="grocery-price">$4.29</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+      <div class="card-total">
+        <span>3 items</span>
+        <strong>$10.77</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-label">Simple Process</div>
+  <div class="section-title">Groceries in 3 easy steps</div>
+  <p class="section-sub">No account setup required. Browse, add to cart, checkout — and we'll handle the rest.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon">🛍️</div>
+      <div class="step-num">01</div>
+      <h3>Browse & Add to Cart</h3>
+      <p>Browse our curated selection of Meijer essentials. Add items to your cart with one click — from snacks to produce to pantry staples.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">💳</div>
+      <div class="step-num">02</div>
+      <h3>Checkout Securely</h3>
+      <p>Enter your campus delivery address and payment details. Your order confirmation and all purchase info is sent automatically to our team.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">🚴</div>
+      <div class="step-num">03</div>
+      <h3>Get Delivered</h3>
+      <p>Our delivery team shops your order at Meijer and brings it directly to your door — dorm, apartment, or anywhere on campus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section class="shop-section" id="shop">
+  <div class="section-label">Meijer Essentials</div>
+  <div class="section-title">Shop Groceries</div>
+  <p class="section-sub">Student-friendly staples, all from Meijer. Click the + to add to your cart.</p>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search groceries..." oninput="filterProducts()">
+  </div>
+
+  <div class="category-tabs">
+    <div class="tab active" onclick="filterCategory('all', this)">All Items</div>
+    <div class="tab" onclick="filterCategory('produce', this)">🥦 Produce</div>
+    <div class="tab" onclick="filterCategory('dairy', this)">🥛 Dairy</div>
+    <div class="tab" onclick="filterCategory('pantry', this)">🍝 Pantry</div>
+    <div class="tab" onclick="filterCategory('snacks', this)">🍿 Snacks</div>
+    <div class="tab" onclick="filterCategory('beverages', this)">☕ Beverages</div>
+    <div class="tab" onclick="filterCategory('frozen', this)">🧊 Frozen</div>
+  </div>
+
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- CART & CHECKOUT -->
+<section class="cart-section" id="order">
+  <div class="section-label">Review & Checkout</div>
+  <div class="section-title">Your Cart</div>
+  <p class="section-sub">Review your order, enter your delivery address, and pay securely online.</p>
+
+  <div class="cart-grid">
+    <div>
+      <div class="cart-items" id="cartItems">
+        <div class="empty-cart">
+          <div class="empty-cart-icon">🛒</div>
+          <p>Your cart is empty — add items from the shop above!</p>
+        </div>
+      </div>
+    </div>
+    <div class="checkout-panel">
+      <h3>Complete Your Order</h3>
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" type="text" id="fullName" placeholder="Jane Smith">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" id="email" placeholder="you@illinois.edu">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Delivery Address</label>
+        <input class="form-input" type="text" id="address" placeholder="Unit 5 Allen Hall, 1005 W Gregory...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" type="tel" id="phone" placeholder="(217) 555-0000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Delivery Notes (optional)</label>
+        <input class="form-input" type="text" id="notes" placeholder="Leave at door, call on arrival...">
+      </div>
+      <div class="order-summary">
+        <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+        <div class="summary-row"><span>Delivery fee</span><span>$3.99</span></div>
+        <div class="summary-row total"><span>Total</span><span id="totalPrice">$3.99</span></div>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn" onclick="placeOrder()">Place Order →</button>
+      <p style="font-size:0.75rem;color:var(--mid);text-align:center;margin-top:12px;">Your order details will be sent to our team for processing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SUCCESS MODAL -->
+<div class="success-modal" id="successModal">
+  <div class="success-box">
+    <div class="success-icon">🎉</div>
+    <h2>Order Received!</h2>
+    <p>Your order has been sent to the IlliniFresh team. We'll pick up your groceries from Meijer and deliver them to your address shortly. Check your email for confirmation!</p>
+    <button class="success-close" onclick="closeModal()">Back to Shopping</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    IlliniFresh
+  </div>
+  <p>Fresh groceries. Delivered simply. Made for students.</p>
+  <div class="footer-links">
+    <a href="#shop">Shop</a>
+    <a href="#how">How It Works</a>
+    <a href="#order">Order</a>
+  </div>
+</footer>
+
+<script>
+const PRODUCTS = [
+  { id:1, name:'Whole Milk (1 gal)', emoji:'🥛', price:3.99, category:'dairy', store:'Meijer', badge:'' },
+  { id:2, name:'Eggs (dozen)', emoji:'🥚', price:4.29, category:'dairy', store:'Meijer', badge:'' },
+  { id:3, name:'Cheddar Cheese (8oz)', emoji:'🧀', price:3.49, category:'dairy', store:'Meijer', badge:'' },
+  { id:4, name:'Greek Yogurt', emoji:'🫙', price:2.79, category:'dairy', store:'Meijer', badge:'' },
+  { id:5, name:'Wheat Bread', emoji:'🍞', price:2.49, category:'pantry', store:'Meijer', badge:'' },
+  { id:6, name:'Peanut Butter (16oz)', emoji:'🥜', price:3.99, category:'pantry', store:'Meijer', badge:'Popular' },
+  { id:7, name:'Pasta (1lb)', emoji:'🍝', price:1.49, category:'pantry', store:'Meijer', badge:'' },
+  { id:8, name:'Canned Tomatoes', emoji:'🥫', price:1.29, category:'pantry', store:'Meijer', badge:'' },
+  { id:9, name:'Rice (2lb bag)', emoji:'🍚', price:2.99, category:'pantry', store:'Meijer', badge:'' },
+  { id:10, name:'Oatmeal (quick oats)', emoji:'🥣', price:3.29, category:'pantry', store:'Meijer', badge:'' },
+  { id:11, name:'Bananas (bunch)', emoji:'🍌', price:1.49, category:'produce', store:'Meijer', badge:'Popular' },
+  { id:12, name:'Apples (bag)', emoji:'🍎', price:3.99, category:'produce', store:'Meijer', obbadge:'' },
+  { id:13, name:'Baby Carrots', emoji:'🥕', price:1.99, category:'produce', store:'Meijer', badge:'' },
+  { id:14, name:'Broccoli (head)', emoji:'🥦', price:2.49, category:'produce', store:'Meijer', badge:'' },
+  { id:15, name:'Spinach (bag)', emoji:'🥬', price:3.49, category:'produce', store:'Meijer', badge:'' },
+  { id:16, name:'Chips (party size)', emoji:'🍿', price:4.49, category:'snacks', store:'Meijer', badge:'' },
+  { id:17, name:'Granola Bars (box)', emoji:'🍫', price:3.99, category:'snacks', store:'Meijer', badge:'' },
+  { id:18, name:'Trail Mix', emoji:'🥜', price:4.99, category:'snacks', store:'Meijer', badge:'' },
+  { id:19, name:'Orange Juice (52oz)', emoji:'🍊', price:4.29, category:'beverages', store:'Meijer', badge:'' },
+  { id:20, name:'Coffee (ground, 12oz)', emoji:'☕', price:6.99, category:'beverages', store:'Meijer', badge:'Popular' },
+  { id:21, name:'Tea Bags (20ct)', emoji:'🍵', price:3.49, category:'beverages', store:'Meijer', badge:'' },
+  { id:22, name:'Sparkling Water (12pk)', emoji:'💧', price:5.99, category:'beverages', store:'Meijer', badge:'' },
+  { id:23, name:'Frozen Pizza', emoji:'🍕', price:5.99, category:'frozen', store:'Meijer', badge:'Popular' },
+  { id:24, name:'Frozen Burritos (4pk)', emoji:'🌯', price:4.49, category:'frozen', store:'Meijer', badge:'' },
+  { id:25, name:'Ice Cream (pint)', emoji:'🍦', price:3.99, category:'frozen', store:'Meijer', badge:'' },
+  { id:26, name:'Frozen Veggie Blend', emoji:'🥦', price:2.99, category:'frozen', store:'Meijer', badge:'' },
+];
+
+let cart = {};
+let currentCategory = 'all';
+let searchTerm = '';
+
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  const filtered = PRODUCTS.filter(p => {
+    const matchCat = currentCategory === 'all' || p.category === currentCategory;
+    const matchSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchCat && matchSearch;
+  });
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card">
+      ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+      <span class="product-emoji">${p.emoji}</span>
+      <div class="product-name">${p.name}</div>
+      <div class="product-store">${p.store}</div>
+      <div class="product-footer">
+        <div class="product-price">$${p.price.toFixed(2)}</div>
+        <button class="add-to-cart ${cart[p.id] ? 'added' : ''}" onclick="addToCart(${p.id}, this)">
+          ${cart[p.id] ? '✓' : '+'}
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addToCart(id, btn) {
+  const product = PRODUCTS.find(p => p.id === id);
+  if (cart[id]) {
+    cart[id].qty++;
+  } else {
+    cart[id] = { ...product, qty: 1 };
+    btn.textContent = '✓';
+    btn.classList.add('added');
+  }
+  renderCart();
+}
+
+function changeQty(id, delta) {
+  if (!cart[id]) return;
+  cart[id].qty += delta;
+  if (cart[id].qty <= 0) delete cart[id];
+  renderCart();
+  renderProducts();
+}
+
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  const keys = Object.keys(cart);
+  if (keys.length === 0) {
+    container.innerHTML = `<div class="empty-cart"><div class="empty-cart-icon">🛒</div><p>Your cart is empty — add items from the shop above!</p></div>`;
+    document.getElementById('subtotal').textContent = '$0.00';
+    document.getElementById('totalPrice').textContent = '$3.99';
+    return;
+  }
+  const subtotal = keys.reduce((sum, k) => sum + cart[k].price * cart[k].qty, 0);
+  container.innerHTML = keys.map(k => {
+    const item = cart[k];
+    return `
+    <div class="cart-item">
+      <div class="cart-item-left">
+        <div class="cart-item-emoji">${item.emoji}</div>
+        <div>
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-store">${item.store}</div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+  document.getElementById('totalPrice').textContent = '$' + (subtotal + 3.99).toFixed(2);
+}
+
+function filterCategory(cat, el) {
+  currentCategory = cat;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
+}
+
+function filterProducts() {
+  searchTerm = document.getElementById('searchInput').value;
+  renderProducts();
+}
+
+function placeOrder() {
+  const name = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  if (!name || !email || !address) {
+    alert('Please fill in your name, email, and delivery address.');
+    return;
+  }
+  if (Object.keys(cart).length === 0) {
+    alert('Your cart is empty! Add some items first.');
+    return;
+  }
+  // Show success modal
+  document.getElementById('successModal').classList.add('show');
+  // Reset
+  cart = {};
+  renderCart();
+  renderProducts();
+  document.getElementById('fullName').value = '';
+  document.getElementById('email').value = '';
+  document.getElementById('address').value = '';
+  document.getElementById('phone').value = '';
+  document.getElementById('notes').value = '';
+}
+
+function closeModal() {
+  document.getElementById('successModal').classList.remove('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderProducts();
+</script>
+</body>
+</html>
